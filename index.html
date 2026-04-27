@@ -355,13 +355,81 @@
       border-radius: 4px; margin-left: 6px;
     }
 
+    /* ── HAMBURGER ── */
+    .nav-burger {
+      display: none; flex-direction: column; justify-content: center; gap: 5px;
+      width: 36px; height: 36px; cursor: pointer; padding: 4px;
+    }
+    .nav-burger span {
+      display: block; height: 2px; background: var(--navy);
+      border-radius: 2px; transition: all .25s;
+    }
+    .nav-mobile {
+      display: none; position: fixed; top: 64px; left: 0; right: 0; z-index: 99;
+      background: rgba(255,255,255,0.98); backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      flex-direction: column; padding: 20px 24px 28px; gap: 4px;
+    }
+    .nav-mobile.open { display: flex; }
+    .nav-mobile a {
+      font-size: 16px; font-weight: 500; color: var(--navy);
+      text-decoration: none; padding: 12px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-mobile a:last-child { border-bottom: none; }
+    .nav-mobile .nav-cta {
+      margin-top: 8px; text-align: center;
+      background: var(--navy); color: var(--white) !important;
+      padding: 13px; border-radius: 10px; border-bottom: none !important;
+    }
+
     @media (max-width: 768px) {
+      /* Nav */
       nav { padding: 0 20px; }
       .nav-links { display: none; }
-      .testimonial-inner { grid-template-columns: 1fr; padding: 36px; gap: 40px; }
-      .footer-inner { grid-template-columns: 1fr 1fr; }
-      .compare-table { font-size: 13px; }
+      .nav-burger { display: flex; }
+
+      /* Hero */
+      .hero { padding: 100px 20px 60px; }
+      .hero h1 { font-size: clamp(36px, 10vw, 52px); }
+      .hero p { font-size: 16px; }
+      .hero-actions { flex-direction: column; align-items: stretch; }
+      .hero-actions a { text-align: center; }
+      .hero-stats { gap: 28px; margin-top: 48px; }
+
+      /* Sections */
+      section { padding: 64px 20px; }
+      .logos { padding: 20px; gap: 10px; }
+      .logos-label { width: 100%; text-align: center; margin: 0 0 4px; }
+
+      /* Features */
+      .features-grid { grid-template-columns: 1fr; }
+      .features-header { margin-bottom: 40px; }
+
+      /* How it works */
+      .how-grid { grid-template-columns: 1fr; gap: 2px; margin-top: 40px; }
+
+      /* Testimonial */
+      .testimonial-inner { grid-template-columns: 1fr; padding: 32px 24px; gap: 32px; }
+
+      /* Comparison — scrollable */
+      .compare { overflow: hidden; }
+      .compare .container { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+      .compare-table { font-size: 13px; min-width: 560px; }
       .compare-table td, .compare-table th { padding: 12px 14px; }
+
+      /* Pricing */
+      .pricing-grid { grid-template-columns: 1fr; max-width: 100%; }
+
+      /* Footer */
+      .footer-inner { grid-template-columns: 1fr 1fr; gap: 32px; padding-bottom: 32px; }
+      footer { padding: 48px 20px 24px; }
+      .footer-bottom { flex-direction: column; align-items: flex-start; gap: 8px; }
+    }
+
+    @media (max-width: 480px) {
+      .footer-inner { grid-template-columns: 1fr; }
+      .hero-stats { flex-direction: column; gap: 20px; align-items: center; }
     }
   </style>
 </head>
@@ -378,7 +446,16 @@
     <a href="#pricing">Pricing</a>
     <a href="#" class="nav-cta">Request access</a>
   </div>
+  <div class="nav-burger" onclick="toggleMenu()" id="burger">
+    <span></span><span></span><span></span>
+  </div>
 </nav>
+<div class="nav-mobile" id="nav-mobile">
+  <a href="#features" onclick="toggleMenu()">Features</a>
+  <a href="#how" onclick="toggleMenu()">How it works</a>
+  <a href="#pricing" onclick="toggleMenu()">Pricing</a>
+  <a href="#" class="nav-cta">Request access</a>
+</div>
 
 <!-- HERO -->
 <section class="hero">
@@ -695,5 +772,19 @@
   </div>
 </footer>
 
+<script>
+  function toggleMenu() {
+    const menu = document.getElementById('nav-mobile');
+    menu.classList.toggle('open');
+  }
+  // Close mobile menu on outside click
+  document.addEventListener('click', function(e) {
+    const menu = document.getElementById('nav-mobile');
+    const burger = document.getElementById('burger');
+    if (menu.classList.contains('open') && !menu.contains(e.target) && !burger.contains(e.target)) {
+      menu.classList.remove('open');
+    }
+  });
+</script>
 </body>
 </html>
